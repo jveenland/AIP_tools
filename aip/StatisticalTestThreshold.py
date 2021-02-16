@@ -16,7 +16,12 @@
 # limitations under the License.
 
 from sklearn.base import BaseEstimator
-from sklearn.feature_selection import SelectorMixin
+try:
+    from sklearn.feature_selection import SelectorMixin
+except ImportError:
+    # On Google Colab, older sklearn version is the default
+    from sklearn.feature_selection.base import SelectorMixin
+
 import numpy as np
 from scipy.stats import ttest_ind, ranksums, mannwhitneyu
 
