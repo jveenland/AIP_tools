@@ -3,10 +3,10 @@ import os
 import glob
 
 
-def load_data():
-    """Load data of the Low Grade Glioma dataset.
+def list_data():
+    """List data of the Low Grade Glioma dataset.
 
-    Usage: data, labels = load_data()
+    Usage: data, labels = list_data()
 
     Output
         labels: dict
