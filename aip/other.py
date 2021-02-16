@@ -151,7 +151,7 @@ def slicer(image, slices=None, mask=None):
             n_axial = len(mask_slices) - 1
             slices = [mask_slices[int(n_axial/4)],
                       mask_slices[int(n_axial/4*2)],
-                      mask_slices[int(n_axial/4*4)]]
+                      mask_slices[int(n_axial/4*3)]]
 
     # If you plot a binary image, we will set the max of the plot to one
     if int(np.max(image)) == 1:
