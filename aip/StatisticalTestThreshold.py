@@ -16,7 +16,7 @@
 # limitations under the License.
 
 from sklearn.base import BaseEstimator
-from sklearn.feature_selection.base import SelectorMixin
+from sklearn.feature_selection import SelectorMixin
 import numpy as np
 from scipy.stats import ttest_ind, ranksums, mannwhitneyu
 
@@ -93,7 +93,7 @@ class StatisticalTestThreshold(BaseEstimator, SelectorMixin):
                 threshold = self.threshold / float(total_features)
             else:
                 threshold = self.threshold
-                
+
             self.metric_values.append(metric_value)
             if metric_value < threshold:
                 self.selectrows.append(n_feat)
