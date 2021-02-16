@@ -9,7 +9,6 @@ setup(
     author_email="m.starmans@erasmusmc.nl",
     include_package_data=True,
     packages=[
-        "functions",
-        "data"
+        "aiptoolbox"
     ],
 )
