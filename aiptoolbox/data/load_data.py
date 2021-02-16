@@ -4,7 +4,7 @@ import glob
 
 
 def load_data():
-    """Load data of the Low Grade Gliom dataset.
+    """Load data of the Low Grade Glioma dataset.
 
     Usage: data, labels = load_data()
 

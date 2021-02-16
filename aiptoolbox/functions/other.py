@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
-Advanced Image Processing Exercises 2018
+Advanced Image Processing Exercises 2021
 Week 3: Machine learning and Pattern Recognition
 Additional functions
 
 @author: Martijn Starmans
-    
+
 """
 
 import os
@@ -64,7 +64,7 @@ class IndexTracker(object):
         self.info = [ix, iy, intensity]
         print('X,Y, Int: ' + str(self.info))
         self.update()
-        
+
 
     def update(self):
         self.im.set_data(self.X[:, :, self.ind])
@@ -73,7 +73,7 @@ class IndexTracker(object):
 
     def get_seeds(self):
         return np.asarray(self.lstSeeds)
-    
+
     def get_info(self):
         return np.asarray(self.info)
 
@@ -102,36 +102,24 @@ def sitk_show(img, title=None, margin=0.0, dpi=40):
 def sitk_show_select_points(img, title=None, margin=0.0, dpi=40):
     nda = sitk.GetArrayFromImage(img)
     nda = np.transpose(nda, [2, 1, 0])
-    #spacing = img.GetSpacing()
     figsize = (1 + margin) * nda.shape[0] / dpi, (1 + margin) * nda.shape[1] / dpi
-    #extent = (0, nda.shape[1]*spacing[1], nda.shape[0]*spacing[0], 0)
     extent = (0, nda.shape[1], nda.shape[0], 0)
     fig = plt.figure(figsize=figsize, dpi=dpi)
     ax = fig.add_axes([margin, margin, 1 - 2*margin, 1 - 2*margin])
 
     plt.set_cmap("gray")
-    # myobj = ax.imshow(nda,extent=extent,interpolation=None)
 
     if title:
         plt.title(title)
 
     tracker = IndexTracker(ax, nda)
-    # fig.canvas.mpl_connect('button_press_event', lambda event: onclick(event, myobj, fig))
     fig.canvas.mpl_connect('scroll_event', tracker.onscroll)
     fig.canvas.mpl_connect('button_press_event', tracker.onclick)
 
-    # plt.tight_layout()
     plt.show()
 
     seeds = tracker.get_seeds()
-    print(seeds[0].shape)
-    print(seeds.shape)
-
-
-    # seeds = np.transpose(seeds, [0, 1, 2])
-    print(seeds)
     seeds[:, [0, 1, 2]] = seeds[:, [1, 0, 2]]
-    print(seeds)
     return seeds
 
 
@@ -144,41 +132,43 @@ def sitk_tile_vec(lstImgs):
         lstImgToCompose.append(sitk.Tile(lstImgToTile, (len(lstImgs), 1, 0)))
     sitk_show(sitk.Compose(lstImgToCompose))
 
+
 def slicer(image, slices=None, mask=None):
     '''
     Make mosaic of nine slices of a 3d image.
-    '''    
+    '''
     shape = image.shape
     fig = plt.figure(figsize=(9, 3))
     n_axial = shape[2] - 1  # -1 as indexing starts at 0
-    
+
     if slices is None:
         if mask is None:
             # Take the 1/4, 2/4 and 3.4 slices
             slices = [int(n_axial/4), int(n_axial/4*2), int(n_axial/4*4)]
         else:
-           # Take the 1/4, 2/4 and 3.4 slices of the mask
-           mask_slices = np.argwhere(np.any(mask, axis=(0, 1)))
-           n_axial = len(mask_slices) - 1
-           slices = [mask_slices[int(n_axial/4)],
-                     mask_slices[int(n_axial/4*2)],
-                     mask_slices[int(n_axial/4*4)]]
-        
+            # Take the 1/4, 2/4 and 3.4 slices of the mask
+            mask_slices = np.argwhere(np.any(mask, axis=(0, 1)))
+            n_axial = len(mask_slices) - 1
+            slices = [mask_slices[int(n_axial/4)],
+                      mask_slices[int(n_axial/4*2)],
+                      mask_slices[int(n_axial/4*4)]]
+
     # If you plot a binary image, we will set the max of the plot to one
     if int(np.max(image)) == 1:
         vmax = np.max(image)
     else:
         vmax = None
-    
+
     # Plot the axial slices
     nslices = len(slices)
     for i_slice in range(0, nslices):
         ax = fig.add_subplot(1, nslices, i_slice + 1)
-        ax.imshow(np.squeeze(image[:,:,slices[i_slice]]), cmap=plt.cm.gray,
+        ax.imshow(np.squeeze(image[:, :, slices[i_slice]]), cmap=plt.cm.gray,
                   interpolation='nearest', vmin=0, vmax=vmax)
-    
+
     plt.show()
-    
+
+
 def get_masked_slices(image_array, mask_array):
     '''
     Get only those slices on which there is a segmentation.
@@ -197,6 +187,7 @@ def get_masked_slices(image_array, mask_array):
 
     return image_array, mask_array
 
+
 def get_masked_voxels(image_array, mask_array):
     '''
     Flattens the image and returns a vector containing only the voxel values
@@ -211,9 +202,10 @@ def get_masked_voxels(image_array, mask_array):
 
     return masked_voxels
 
+
 def GetArrayFromImageC(image):
     image = sitk.GetArrayFromImage(image)
-    image = np.transpose(image, [2,1,0])
+    image = np.transpose(image, [2, 1, 0])
     return image
 
 
@@ -221,7 +213,7 @@ def boxplot(image_features, patient_labels, patient_IDs=None, figsize=(15,15)):
     if patient_IDs is None:
         # Use numbers as ids
         patient_IDs = [str(num) for num in range(0, len(patient_labels))]
-        
+
     # Make a feature value and label vector for each class per feature label
     labels = image_features[0].keys()
     featvect = dict()
@@ -279,25 +271,26 @@ def boxplot(image_features, patient_labels, patient_IDs=None, figsize=(15,15)):
             fignum += 1
     plt.show()
 
+
 def create_images(size=128):
     '''
     Creates three iamges: a circle, a square and a triangle. The images
     will have the shape size x size.
     '''
     ra = range(-int(size/2), int(size/2)+1)
-    x, y = np.meshgrid(ra,ra)
-    
+    x, y = np.meshgrid(ra, ra)
+
     # Create a circle
     radius = np.sqrt(x**2 + y**2)
     circle = radius.astype(int) == int(size/4)
-    
+
     # Create a square
     square = np.zeros(circle.shape)
     square[int(size/4):int(size/4*3), int(size/4)] = 1
     square[int(size/4):int(size/4*3), int(size/4*3)] = 1
     square[int(size/4), int(size/4):int(size/4*3)] = 1
     square[int(size/4*3), int(size/4):int(size/4*3)] = 1
-    
+
     # Create a triangle
     triangle = np.zeros(circle.shape)
     triangle[int(size/4*3), int(size/4):int(size/4*3)] = 1
@@ -307,21 +300,22 @@ def create_images(size=128):
     for x in range(int(size/4), int(size/4*3)):
         triangle[x, int(yr)] = 1
         yr += slope
-        
+
         triangle[x, int(yl)] = 1
         yl -= slope
-        
+
     # Convert the images to ITK objects
     circle = sitk.GetImageFromArray(circle.astype(int))
     square = sitk.GetImageFromArray(square.astype(int))
     triangle = sitk.GetImageFromArray(triangle.astype(int))
-        
+
     return circle, square, triangle
-    
+
+
 def colorplot(clf, ax, x, y, h=100):
     '''
     Overlay the decision areas as colors in an axes.
-    
+
     Input:
         clf: trained classifier
         ax: axis to overlay color mesh on
@@ -330,15 +324,15 @@ def colorplot(clf, ax, x, y, h=100):
         h(optional): steps in the mesh
     '''
     # Create a meshgrid the size of the axis
-    xstep = (x.max() - x.min() ) / 20.0
-    ystep = (y.max() - y.min() ) / 20.0
+    xstep = (x.max() - x.min()) / 20.0
+    ystep = (y.max() - y.min()) / 20.0
     print(xstep)
     x_min, x_max = x.min() - xstep, x.max() + xstep
     y_min, y_max = y.min() - ystep, y.max() + ystep
     h = max((x_max - x_min, y_max - y_min))/h
     xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
                          np.arange(y_min, y_max, h))
-    
+
     # Plot the decision boundary. For that, we will assign a color to each
     # point in the mesh [x_min, x_max]x[y_min, y_max].
     if hasattr(clf, "decision_function"):
@@ -347,16 +341,17 @@ def colorplot(clf, ax, x, y, h=100):
         Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
     else:
         Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
-        
+
     if len(Z.shape) > 1:
         Z = Z[:, 1]
-    
+
     # Put the result into a color plot
     cm = plt.cm.RdBu_r
     Z = Z.reshape(xx.shape)
     ax.contourf(xx, yy, Z, cmap=cm, alpha=.8)
     del xx, yy, x_min, x_max, y_min, y_max, Z, cm
-    
+
+
 def load_breast_cancer(n_features=2):
     '''
     Load the sklearn breast data set, but reduce the number of features with PCA.
@@ -364,23 +359,25 @@ def load_breast_cancer(n_features=2):
     data = ds.load_breast_cancer()
     x = data['data']
     y = data['target']
-    
+
     p = PCA(n_components=n_features)
     p = p.fit(x)
     x = p.transform(x)
     return x, y
 
+
 def make_friedman1(n_samples=100, n_features=1, noise=40.0):
     '''
-    Use the Friedman1 generator from sklearn to create a regression example. 
+    Use the Friedman1 generator from sklearn to create a regression example.
     Perform a PCA to reduce the number of features to one.
     '''
     x, y = ds.make_friedman1(n_samples=n_samples, n_features=5, noise=noise)
-    
+
     p = PCA(n_components=n_features)
     p = p.fit(x)
     x = p.transform(x)
     return x, y
+
 
 def load_boston(n_features=1):
     '''
@@ -389,11 +386,12 @@ def load_boston(n_features=1):
     data = ds.load_boston()
     x = data['data']
     y = data['target']
-    
+
     p = PCA(n_components=n_features)
     p = p.fit(x)
     x = p.transform(x)
     return x, y
+
 
 def load_diabetes(n_features=1):
     '''
@@ -402,27 +400,28 @@ def load_diabetes(n_features=1):
     data = ds.load_diabetes()
     x = data['data']
     y = data['target']
-    
+
     p = PCA(n_components=n_features)
     p = p.fit(x)
     x = p.transform(x)
     return x, y
 
+
 def barplot(values, labels, bar_width=0.9):
-    ''' 
+    '''
     Make a barplot of features. You need to provide both the feature
     values and the labels, each as a separate list.
     '''
     y = values
     x = np.arange(len(y))
-    l = labels
 
     fig, ax = plt.subplots()
     ax.bar(x, y, width=bar_width)
     ax.set_xticks(x + (bar_width/2.0))
-    ax.set_xticklabels(l, rotation=90)
+    ax.set_xticklabels(labels, rotation=90)
     plt.show()
-    
+
+
 def make_violin_plot(data):
     '''
     Make a violin plot of metadata
@@ -448,8 +447,9 @@ def make_violin_plot(data):
 
     ax.set_xlabel('')
     plt.show()
-  
-def resample_images(image, resample_size):
+
+
+def resample_images(image, resample_size, interpolator=sitk.sitkBSpline):
     '''
     Resample an image to another size.
 
@@ -459,6 +459,8 @@ def resample_images(image, resample_size):
         Input image.
     resample_size : list
         Size to resample image to
+    interpolator: ITK object, default sitk.sitkBSpline
+        Interpolator to use when resampling image.
 
     Returns
     -------
@@ -476,7 +478,7 @@ def resample_images(image, resample_size):
                    original_size[1]*original_spacing[1]/resample_size[1],
                    original_size[2]*original_spacing[2]/resample_size[2]]
     ResampleFilter = sitk.ResampleImageFilter()
-    ResampleFilter.SetInterpolator(sitk.sitkBSpline)
+    ResampleFilter.SetInterpolator(interpolator)
     ResampleFilter.SetOutputSpacing(new_spacing)
     ResampleFilter.SetSize(resample_size)
     ResampleFilter.SetOutputDirection(image.GetDirection())
@@ -485,6 +487,7 @@ def resample_images(image, resample_size):
     ResampleFilter.SetTransform(sitk.Transform())
     resampled_image = ResampleFilter.Execute(image)
     return resampled_image
+
 
 def find_patient_labels(objects, labelfile, label_name='1p19qDel'):
     '''
@@ -509,7 +512,7 @@ def find_patient_labels(objects, labelfile, label_name='1p19qDel'):
     # Chech if label file exists
     if not os.path.exists(labelfile):
         raise KeyError(f'File {labelfile} does not exist!')
-    
+
     # Load the labels first
     data = pd.read_csv(labelfile, header=0)
 
@@ -524,13 +527,13 @@ def find_patient_labels(objects, labelfile, label_name='1p19qDel'):
     # label status is stored in all remaining columns
     labels = data.values[:, 1:]
     labels = labels.astype(np.float)
-    
+
     # Initialize output objects
     objects_out = list()
     label_data = dict()
     patient_IDs = list()
     labels_out = list()
-        
+
     # Now match to the objects
     for i_object, o in enumerate(objects):
         ifound = 0
@@ -562,5 +565,5 @@ def find_patient_labels(objects, labelfile, label_name='1p19qDel'):
     label_data['patient_IDs'] = np.asarray(patient_IDs)
     label_data['label'] = np.asarray(labels_out)[:, 0]
     label_data['label_name'] = label_name
-    
+
     return objects_out, label_data
