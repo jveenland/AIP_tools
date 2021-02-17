@@ -449,37 +449,65 @@ def make_violin_plot(data):
     plt.show()
 
 
-def resample_images(image, resample_size, interpolator=sitk.sitkBSpline):
-    '''
-    Resample an image to another size.
+def resample_images(image, resample_spacing=None, resample_size=None,
+                    interpolator=sitk.sitkBSpline):
+    """Resample an image to another spacing or size.
+
+    Note, you need to either
+    provide the resample_spacing OR resample_size argument.
 
     Parameters
     ----------
     image : ITK Image
         Input image.
-    resample_size : list
-        Size to resample image to
+    resample_spacing : list, optional
+        Spacing to resample image to
+    resample_size : list, optional
+        Size to resample image to.
     interpolator: ITK object, default sitk.sitkBSpline
-        Interpolator to use when resampling image.
+        Interpolator to use when resampling image. Other options are
+        for example sitk.sitkNearestNeighbor or sitk.sitkLinear
 
     Returns
     -------
     resampled_image : ITK Image
         Output image.
 
-    '''
-    original_size = image.GetSize()
-    original_spacing = image.GetSpacing()
-    if len(original_size) == 2:
-        original_size = original_size + (1, )
-    if len(original_spacing) == 2:
-        original_spacing = original_spacing + (1.0, )
-    new_spacing = [original_size[0]*original_spacing[0]/resample_size[0],
-                   original_size[1]*original_spacing[1]/resample_size[1],
-                   original_size[2]*original_spacing[2]/resample_size[2]]
+    """
+    if resample_spacing is None and resample_size is None:
+        raise ValueError('Either provide resample_spacing OR resample_size as input!')
+
+    if resample_spacing is not None and resample_size is not None:
+        raise ValueError('Either provide resample_spacing OR resample_size as input!')
+
+    if resample_spacing is not None:
+        # Compute resample size
+        size = np.asarray(image.GetSize())
+        spacing = np.asarray(image.GetSpacing())
+
+        resample_size = size * spacing / resample_spacing
+        resample_size = resample_size.astype(np.int)
+        resample_size = resample_size.tolist()
+
+    if resample_size is not None:
+        # Compute resample spacing
+        original_size = image.GetSize()
+        original_spacing = image.GetSpacing()
+
+        if len(original_size) == 2:
+            original_size = original_size + (1, )
+
+        if len(original_spacing) == 2:
+            original_spacing = original_spacing + (1.0, )
+
+        resample_spacing = [original_size[0]*original_spacing[0]/resample_size[0],
+                            original_size[1]*original_spacing[1]/resample_size[1],
+                            original_size[2]*original_spacing[2]/resample_size[2]]
+
+    # Actual resampling
     ResampleFilter = sitk.ResampleImageFilter()
     ResampleFilter.SetInterpolator(interpolator)
-    ResampleFilter.SetOutputSpacing(new_spacing)
+    ResampleFilter.SetOutputSpacing(resample_spacing)
     ResampleFilter.SetSize(resample_size)
     ResampleFilter.SetOutputDirection(image.GetDirection())
     ResampleFilter.SetOutputOrigin(image.GetOrigin())
