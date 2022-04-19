@@ -39,3 +39,41 @@ def list_data():
         data[PID]['T2_metadata'] = os.path.join(pfolder, '00000_T2.dcm')
 
     return data, labels
+
+
+def list_data_registration():
+    """List data for the registration exercises
+
+    Usage: data, labels = list_data()
+
+    Output
+        labels: dict
+            Dictionary with as keys the patient ID, as values the ground truth
+            of patients: 1 = 1p19q co-deletion, 0 = no co-deletion
+        data: dict
+            Dictionary with as keys the patient ID, as values a dict with
+            all available files.
+
+    """
+    # Determine this directory
+    this_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Gather all example files
+    example_directory = os.path.join(this_directory, 'registration', 'elastix_example_v4.8', 'exampleinput')
+    example_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(example_directory, '*'))}
+
+    # Combine all data
+    data = dict()
+    data['example_data'] = example_data
+    return data
+
+def test():
+    """Test the other functions"""
+    # data, labels = list_data()
+    # print(data, labels)
+
+    data = list_data_registration()
+    print(data)
+
+if __name__ == '__main__':
+    test()
