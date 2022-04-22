@@ -153,18 +153,17 @@ def slicer(image, slices=None, mask=None):
                       mask_slices[int(n_axial/4*2)],
                       mask_slices[int(n_axial/4*3)]]
 
-    # If you plot a binary image, we will set the max of the plot to one
-    if int(np.max(image)) == 1:
-        vmax = np.max(image)
-    else:
-        vmax = None
+    # Get min and max of images for plotting
+    vmin = np.min(image)
+    vmax = np.max(image)
 
     # Plot the axial slices
     nslices = len(slices)
     for i_slice in range(0, nslices):
         ax = fig.add_subplot(1, nslices, i_slice + 1)
         ax.imshow(np.squeeze(image[:, :, slices[i_slice]]), cmap=plt.cm.gray,
-                  interpolation='nearest', vmin=0, vmax=vmax)
+                  interpolation='nearest', vmin=vmin, vmax=vmax)
+        ax.set_title(f'Slice {slices[i_slice]}.')
 
     plt.show()
 

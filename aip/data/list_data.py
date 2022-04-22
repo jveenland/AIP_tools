@@ -63,12 +63,12 @@ def list_data_registration():
     example_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(example_directory, '*'))}
 
     # Gather the fundus dataset
-    fundus_directory =  os.path.join(this_directory, 'registration', 'Fundus')
+    fundus_directory = os.path.join(this_directory, 'registration', 'Fundus')
     fundus_data = glob.glob(os.path.join(fundus_directory, '*'))
     fundus_data = {os.path.basename(filename): filename for filename in fundus_data}
 
     # Gather the multimodal brain dataset
-    brain_directory =  os.path.join(this_directory, 'registration', 'Brain')
+    brain_directory = os.path.join(this_directory, 'registration', 'Brain')
     brain_data = dict()
     brain_data['CT'] = os.path.join(brain_directory, 'CT.nii.gz')
     brain_data['MR_T1'] = os.path.join(brain_directory, 'MR_T1.nii.gz')
@@ -81,6 +81,7 @@ def list_data_registration():
 
     return data
 
+
 def test():
     """Test the other functions"""
     # data, labels = list_data()
@@ -88,6 +89,6 @@ def test():
 
     data = list_data_registration()
     print(data)
-
+\
 if __name__ == '__main__':
     test()
