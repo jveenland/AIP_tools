@@ -62,9 +62,23 @@ def list_data_registration():
     example_directory = os.path.join(this_directory, 'registration', 'elastix_example_v4.8', 'exampleinput')
     example_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(example_directory, '*'))}
 
+    # Gather the fundus dataset
+    fundus_directory =  os.path.join(this_directory, 'registration', 'Fundus')
+    fundus_data = glob.glob(os.path.join(fundus_directory, '*'))
+    fundus_data = {os.path.basename(filename): filename for filename in fundus_data}
+
+    # Gather the multimodal brain dataset
+    brain_directory =  os.path.join(this_directory, 'registration', 'Brain')
+    brain_data = dict()
+    brain_data['CT'] = os.path.join(brain_directory, 'CT.nii.gz')
+    brain_data['MR_T1'] = os.path.join(brain_directory, 'MR_T1.nii.gz')
+
     # Combine all data
     data = dict()
     data['example_data'] = example_data
+    data['fundus_data'] = fundus_data
+    data['brain_data'] = brain_data
+
     return data
 
 def test():
