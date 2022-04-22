@@ -1,0 +1,7 @@
+numpy
+SimpleITK
+natsort
+sklearn
+pandas
+seaborn
+itk
