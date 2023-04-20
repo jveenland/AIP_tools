@@ -9,9 +9,11 @@ setup(
     version="0.3",
     description="""TM11005 Week 3 Machine Learning Python Package""",
     license="Apache 2.0 License",
-    author="Martijn Starmans, Jose Castillo Tovar",
+    author="Martijn P. A. Starmans, Jose M. Castillo T.",
     author_email="m.starmans@erasmusmc.nl",
+    package_dir={"": "aip"},
     include_package_data=True,
+    package_data={"aip": ["*.dcm", "*.nii.gz", "*.csv"]}
     packages=[
         "aip"
     ],
