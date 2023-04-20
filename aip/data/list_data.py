@@ -89,6 +89,7 @@ def test():
 
     data = list_data_registration()
     print(data)
-\
+
+
 if __name__ == '__main__':
     test()

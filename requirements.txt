@@ -1,7 +1,7 @@
 numpy
 SimpleITK
 natsort
-sklearn
+scikit-learn
 pandas
 seaborn
 itk
