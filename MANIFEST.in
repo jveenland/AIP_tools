@@ -1,4 +1,12 @@
 
-recursive-include aip/*
-recursive-include aip/data/*
-recursive-include aip/data/*/*
+recursive-include aip *
+
+#documentation
+recursive-include docs/_build/html *
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[cod]
+
+# Exclude all bytecode
+global-exclude *.pyo
+global-exclude *.pyc
