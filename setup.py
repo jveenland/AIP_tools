@@ -13,7 +13,7 @@ setup(
     author_email="m.starmans@erasmusmc.nl",
     package_dir={"": "aip"},
     include_package_data=True,
-    package_data={"aip": ["*.dcm", "*.nii.gz", "*.csv"]}
+    package_data={"aip": ["*.dcm", "*.nii.gz", "*.csv"]},
     packages=[
         "aip"
     ],
