@@ -25,7 +25,7 @@ from skimage.feature import local_binary_pattern
 import SimpleITK as sitk
 import scipy.stats
 from radiomics import featureextractor
-import PREDICT.addexceptions as ae
+import aip.addexceptions as ae
 import aip.image_helper as ih
 import aip.histogram_features as hf
 
