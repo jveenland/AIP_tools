@@ -19,7 +19,7 @@ import numpy as np
 import skimage.filters
 from joblib import Parallel, delayed
 import itertools
-from skimage.feature import greycomatrix, greycoprops
+from skimage.feature import graycomatrix, graycoprops
 from skimage.exposure import rescale_intensity
 from skimage.feature import local_binary_pattern
 import SimpleITK as sitk
