@@ -41,7 +41,7 @@ def get_masked_slices_image(image_array, mask_array):
             Array containing the masked mask array.
 
     '''
-    mask_array = mask_array.astype(np.bool)
+    mask_array = mask_array.astype(bool)
 
     mask_slices = np.any(mask_array, axis=(0, 1))
     try:
@@ -74,7 +74,7 @@ def get_masked_voxels(image_array, mask_array):
             1D Array containing only those voxels for which the mask was True.
 
     '''
-    mask_array = mask_array.astype(np.bool)
+    mask_array = mask_array.astype(bool)
 
     mask_array = mask_array.flatten()
     image_array = image_array.flatten()
