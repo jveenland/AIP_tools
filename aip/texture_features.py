@@ -153,15 +153,15 @@ def get_GLCM_features_multislice(image, mask, parameters=dict()):
 
         # compute actual GLCM
         try:
-            GLCM_matrix = greycomatrix(image_bounded, distances, angles,
+            GLCM_matrix = graycomatrix(image_bounded, distances, angles,
                                        levels=levels, normed=True)
 
-            contrast.append(greycoprops(GLCM_matrix, 'contrast').flatten())
-            dissimilarity.append(greycoprops(GLCM_matrix, 'dissimilarity').flatten())
-            homogeneity.append(greycoprops(GLCM_matrix, 'homogeneity').flatten())
-            ASM.append(greycoprops(GLCM_matrix, 'ASM').flatten())
-            energy.append(greycoprops(GLCM_matrix, 'energy').flatten())
-            correlation.append(greycoprops(GLCM_matrix, 'correlation').flatten())
+            contrast.append(graycoprops(GLCM_matrix, 'contrast').flatten())
+            dissimilarity.append(graycoprops(GLCM_matrix, 'dissimilarity').flatten())
+            homogeneity.append(graycoprops(GLCM_matrix, 'homogeneity').flatten())
+            ASM.append(graycoprops(GLCM_matrix, 'ASM').flatten())
+            energy.append(graycoprops(GLCM_matrix, 'energy').flatten())
+            correlation.append(graycoprops(GLCM_matrix, 'correlation').flatten())
 
         except ValueError:
             print(f'[PREDICT WARNING] Slice {i_slice} to small to compute GLCM: {image_bounded.shape}.')
