@@ -485,7 +485,7 @@ def resample_images(image, resample_spacing=None, resample_size=None,
         spacing = np.asarray(image.GetSpacing())
 
         resample_size = size * spacing / resample_spacing
-        resample_size = resample_size.astype(np.int)
+        resample_size = resample_size.astype(int)
         resample_size = resample_size.tolist()
 
     if resample_size is not None:
