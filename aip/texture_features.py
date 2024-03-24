@@ -26,8 +26,8 @@ import SimpleITK as sitk
 import scipy.stats
 from radiomics import featureextractor
 import PREDICT.addexceptions as ae
-import PREDICT.helpers.image_helper as ih
-import PREDICT.imagefeatures.histogram_features as hf
+import aip.image_helper as ih
+import aip.histogram_features as hf
 
 
 def gabor_filter_parallel(image, mask, parameters=dict(), n_jobs=1,
