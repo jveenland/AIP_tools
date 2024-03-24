@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# Copyright 2011-2018 Biomedical Imaging Group Rotterdam, Departments of
+#!/usr/bin/env python
+
+# Copyright 2011-2017 Biomedical Imaging Group Rotterdam, Departments of
 # Medical Informatics and Radiology, Erasmus MC, Rotterdam, The Netherlands
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 # limitations under the License.
 
 import SimpleITK as sitk
-import aip.sitk_helper as sitkh
+import PREDICT.helpers.sitk_helper as sitkh
 import numpy as np
 from functools import reduce
 
@@ -50,10 +50,13 @@ def get_contour_boundary_points(contour):
 
     boundary_points = list()
     for i in range(boundary_index.shape[1]):
+        # Convert to required double type, otherwise gives bug on Windows
+        boundary_index = boundary_index.astype(np.double)
+
         # Convert index to actual coordinates
         boundary_points.append(
             contour_boundary.TransformContinuousIndexToPhysicalPoint(
-                [int(boundary_index[0, i]), int(boundary_index[1, i])]))
+                [boundary_index[0, i], boundary_index[1, i]]))
 
     boundary_points = np.asarray(boundary_points)
 
@@ -124,7 +127,8 @@ def convex_hull_points(points):
     u = reduce(_keep_left, reversed(points), [])
     total = l.extend(u[i] for i in range(1, len(u) - 1)) or l
     total = np.asarray(total)
-    total = np.vstack({tuple(row) for row in total})
+    total = [tuple(row) for row in total]
+    total = np.vstack(total)
     total = sort_points(total)
     total = np.append(total, total[0:1], 0)
     return total
@@ -172,21 +176,22 @@ def local_convex_hull_points(points, N_min, N_max):
         l.extend(u[i] for i in range(1, len(u) - 1)) or l
         total.extend(l)
     total = np.asarray(total)
-    total = np.vstack({tuple(row) for row in total})
+    total = [tuple(row) for row in total]
+    total = np.vstack(total)
     total = sort_points(total)
     total = np.append(total, total[0:1], 0)
 
     return total
 
 
-def local_convex_hull(contour, N_min=10, N_max=40):
+def local_convex_hull(contour, N_min, N_max):
     """Find local convex hull for given contour"""
     points = get_contour_boundary_points(contour)
     total = local_convex_hull_points(points, N_min, N_max)
     return total
 
 
-def get_smooth_contour(mask, N_min=10, N_max=40):
+def get_smooth_contour(mask, N_min, N_max):
     """Find local convex hull for given contour"""
     points = get_contour_boundary_points(mask)
     total = local_convex_hull_points(points, N_min, N_max)
