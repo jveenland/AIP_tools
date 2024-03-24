@@ -16,7 +16,7 @@
 # limitations under the License.
 
 import SimpleITK as sitk
-import sitk_helper as sitkh
+import aip.sitk_helper as sitkh
 import numpy as np
 from functools import reduce
 
