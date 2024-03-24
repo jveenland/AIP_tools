@@ -19,7 +19,7 @@
 import numpy as np
 import scipy.stats
 
-import PREDICT.helpers.contour_functions as cf
+import aip.contour_functions as cf
 
 
 def get_histogram_features(data, N_bins=50):
