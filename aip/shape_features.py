@@ -18,8 +18,8 @@
 import numpy as np
 from skimage.measure import label
 import SimpleITK as sitk
-import PREDICT.helpers.contour_functions as cf
-import PREDICT.helpers.sitk_helper as sitkh
+import aip.contour_functions as cf
+import aip.sitk_helper as sitkh
 
 # CONSTANTS
 N_min_smooth = 10
