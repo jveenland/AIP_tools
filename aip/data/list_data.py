@@ -80,7 +80,26 @@ def list_data_registration():
     data['brain_data'] = brain_data
 
     return data
+    
+def list_data_reg():
+    """List data for the registration exercises
 
+    Usage: data, labels = list_data()
+
+    Output
+        data: dict
+            Dictionary with as keys the patient ID, as values a dict with
+            all available files.
+
+    """
+    # Determine this directory
+    this_directory = os.path.dirname(os.path.abspath(__file__))
+
+    # Gather all data files
+
+    data = {os.path.basename(filename): filename for filename in glob.glob(os.path.basename, '*'))}
+
+    return data
 
 def test():
     """Test the other functions"""
