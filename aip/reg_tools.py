@@ -10,7 +10,7 @@ def show_images(images, titles=None, figsize=6):
     fig=plt.figure(figsize=figsize)
 
     for nim, image in enumerate(images):
-        ax = gif.add_subplot(1, n_images, nim+1)
+        ax = fig.add_subplot(1, n_images, nim+1)
     ax.axis('off')
 
     if int(np.max(image))==1:
