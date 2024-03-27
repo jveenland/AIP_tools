@@ -31,7 +31,7 @@ resources_list = scan_dir('./aip/data')
 setup(
     name="aip",
     version="0.3",
-    description="""TM11005 Week 3 Machine Learning Python Package""",
+    description="""TM11005 Python Package""",
     license="Apache 2.0 License",
     author="Martijn P. A. Starmans, Jose M. Castillo T.",
     author_email="m.starmans@erasmusmc.nl",
