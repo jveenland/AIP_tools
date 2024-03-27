@@ -18,7 +18,7 @@ def show_images(images, titles=None, figsize=6):
     else:
         vmax = None
         
-    if int(np.min(image)==0
+    if int(np.min(image))==0
         vmin=np.min(image)
     else:
         vmin = None
