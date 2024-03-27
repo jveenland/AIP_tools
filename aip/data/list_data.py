@@ -93,9 +93,9 @@ def list_data_reg():
     # Determine this directory
     this_directory = os.path.dirname(os.path.abspath(__file__))
     reg_directory = os.path.join(this_directory, 'registration')
-    data = dict()
+    reg_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(reg_directory, '*'))}
     
-    return data
+    return reg_data
 
 def test():
     """Test the other functions"""
