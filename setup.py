@@ -40,7 +40,9 @@ setup(
     packages=[
         "aip",
         "aip.data",
+        "aip.data.segmentation",
         "aip.data.registration",
+        "aip.data.ML",
         "aip.data.registration.Brain",
         "aip.data.registration.Fundus"
     ],
