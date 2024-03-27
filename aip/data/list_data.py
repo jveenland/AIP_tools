@@ -88,17 +88,13 @@ def list_data_reg():
 
     Output
         data: dict
-            Dictionary with as keys the patient ID, as values a dict with
-            all available files.
 
     """
     # Determine this directory
     this_directory = os.path.dirname(os.path.abspath(__file__))
-
-    # Gather all data files
-
-    data = {os.path.basename(filename): filename for filename in glob.glob(os.path.basename, '*'))}
-
+    reg_directory = os.path.join(this_directory, 'registration')
+    data = dict()
+    
     return data
 
 def test():
