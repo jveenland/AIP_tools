@@ -23,7 +23,7 @@ def show_images(images, titles=None, figsize=6):
     else:
         vmin = None
 
-    ax.imshow(image, cmap=plt.cm.gray, interpolation='nearest', vmin=vmin, vmax=vmax)
+    ax.imshow(images, cmap=plt.cm.gray, interpolation='nearest', vmin=vmin, vmax=vmax)
 
     if titles is not None:
         ax.set_title(titles[nim])
