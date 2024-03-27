@@ -3,6 +3,31 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.color import gray2rgb
 
+def show_images(images, titles=None, figsize=6)
+    n_images = len(images)
+    figsize = (figsize*n_images, figsize)
+
+    fig=plt.figure(figsize=figsize)
+
+    for nim, image in enumerate(images):
+        ax = gif.add_subplot(1, n_images, nim+1)
+    ax.axis('off')
+
+    if int(np.max(image))==1:
+        vmax=np.max(image)
+    else:
+        vmax = None
+        
+    if int(np.min(image)==0
+        vmin=np.min(image)
+    else:
+        vmin = None
+
+    ax.imshow(image, cmap=plt.cm.gray, interpolate='nearest', vmin=vamin, vmax=vmax)
+
+    if titles= not None:
+        ax.set_title(titles[nim])
+
 
 def show_itkimages(images, titles=None, figsize=6, imfuse=None):
     """Plot a 2-D ITK image object using matplotlib.
