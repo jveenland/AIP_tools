@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import glob
 
-
 def list_data():
     """List data of the Low Grade Glioma dataset.
 
@@ -80,11 +79,11 @@ def list_data_registration():
     data['brain_data'] = brain_data
 
     return data
-    
+
 def list_data_reg():
     """List data for the registration exercises
 
-    Usage: data, labels = list_data()
+    Usage: data, labels = list_data_reg()
 
     Output
         data: dict
@@ -96,6 +95,22 @@ def list_data_reg():
     reg_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(reg_directory, '*'))}
     
     return reg_data
+    
+def list_data_segm():
+    """List data for the segmentation exercises
+
+    Usage: data, labels = list_data_segm()
+
+    Output
+        data: dict
+
+    """
+    # Determine this directory
+    this_directory = os.path.dirname(os.path.abspath(__file__))
+    segm_directory = os.path.join(this_directory, 'segmentation')
+    segm_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(segm_directory, '*'))}
+    
+    return segm_data
 
 def test():
     """Test the other functions"""
