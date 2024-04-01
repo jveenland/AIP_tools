@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import glob
 
-def list_data():
+def list_data_ML():
     """List data of the Low Grade Glioma dataset.
 
     Usage: data, labels = list_data()
@@ -18,13 +18,14 @@ def list_data():
     """
     # Determine this directory
     this_directory = os.path.dirname(os.path.abspath(__file__))
-
+    ML_directory = os.path.join(this_directory, 'ML')
+    
     # Read the labels and convert to dictionary
-    labels = pd.read_csv(os.path.join(this_directory, 'LGG_mutation_status.csv'))
+    labels = pd.read_csv(os.path.join(ML_directory, 'LGG_mutation_status.csv'))
     labels = {pid: label for pid, label in zip(labels['Patient'], labels['1p19qDel'])}
 
     # Gather all available files
-    pfolders = glob.glob(os.path.join(this_directory, 'LGG-*'))
+    pfolders = glob.glob(os.path.join(ML_directory, 'LGG-*'))
     pfolders.sort()
     data = dict()
     for pfolder in pfolders:
@@ -111,22 +112,6 @@ def list_data_segm():
     segm_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(segm_directory, '*'))}
     
     return segm_data
-
-def list_data_ML():
-    """List data for the machinelearning exercises
-
-    Usage: data, labels = list_data_ML()
-
-    Output
-        data: dict
-
-    """
-    # Determine this directory
-    this_directory = os.path.dirname(os.path.abspath(__file__))
-    ML_directory = os.path.join(this_directory, 'segmentation')
-    ML_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(ML_directory, '*'))}
-    
-    return ML_data
 
 def test():
     """Test the other functions"""
