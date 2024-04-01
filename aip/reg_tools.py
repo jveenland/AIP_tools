@@ -11,22 +11,23 @@ def show_images(images, titles=None, figsize=6):
 
     for nim, image in enumerate(images):
         ax = fig.add_subplot(1, n_images, nim+1)
-    ax.axis('off')
-
-    if int(np.max(image))==1:
-        vmax=np.max(image)
-    else:
-        vmax = None
+        ax.axis('off')
         
-    if int(np.min(image))==0:
-        vmin=np.min(image)
-    else:
-        vmin = None
-
-    ax.imshow(image, cmap=plt.cm.gray, interpolation='nearest', vmin=vmin, vmax=vmax)
-
-    if titles is not None:
-        ax.set_title(titles[nim])
+        if int(np.max(image))==1:
+          vmax=np.max(image)
+        else:
+          vmax = None
+        
+        if int(np.min(image))==0:
+          vmin=np.min(image)
+        else:
+          vmin = None
+        
+        image_array = images[nim]
+        ax.imshow(image_array, cmap=plt.cm.gray, interpolation='nearest', vmin=vmin, vmax=vmax)
+        
+        if titles is not None:
+          ax.set_title(titles[nim])
 
 
 def show_itkimages(images, titles=None, figsize=6, imfuse=None):
