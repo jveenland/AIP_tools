@@ -112,6 +112,22 @@ def list_data_segm():
     
     return segm_data
 
+def list_data_ML():
+    """List data for the machinelearning exercises
+
+    Usage: data, labels = list_data_ML()
+
+    Output
+        data: dict
+
+    """
+    # Determine this directory
+    this_directory = os.path.dirname(os.path.abspath(__file__))
+    ML_directory = os.path.join(this_directory, 'segmentation')
+    ML_data = {os.path.basename(filename): filename for filename in glob.glob(os.path.join(ML_directory, '*'))}
+    
+    return ML_data
+
 def test():
     """Test the other functions"""
     # data, labels = list_data()
