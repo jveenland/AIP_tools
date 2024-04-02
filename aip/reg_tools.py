@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.color import gray2rgb
 
-def show_images(images, titles=None, figsize=6):
+def show_images(images, cmap=cmap, vmax=vmax, titles=None, figsize=6):
     n_images = len(images)
     figsize = (figsize*n_images, figsize)
 
