@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from skimage.color import gray2rgb
 
-def show_images(images, cmap=plt.cm.gray, vmax=None, titles=None, figsize=6):
+#old version
+def show_images3(images, cmap=plt.cm.gray, vmax=None, titles=None, figsize=6):
     n_images = len(images)
     figsize = (figsize*n_images, figsize)
 
@@ -28,7 +29,34 @@ def show_images(images, cmap=plt.cm.gray, vmax=None, titles=None, figsize=6):
         
         if titles is not None:
           ax.set_title(titles[nim])
+            
+def show_images(images, cmap=None, vmin=None, vmax=None, titles=None, figsize=6):
+    n_images = len(images)
+    figsize = (figsize*n_images, figsize)
 
+    fig=plt.figure(figsize=figsize)
+    for nim, image in enumerate(images):
+        ax = fig.add_subplot(1, n_images, nim+1)
+        ax.axis('off')
+        
+        if int(np.max(image))==1:
+          vmax=np.max(image)
+        else:
+          vmax = None
+        
+        if int(np.min(image))==0:
+          vmin=np.min(image)
+        else:
+          vmin = None
+        
+        if cmap is not None:
+          plt.get_cmap(cmap)
+
+        image_array = images[nim]
+        ax.imshow(image_array, cmap=cmap, interpolation='nearest', vmin=vmin, vmax=vmax)
+        
+        if titles is not None:
+          ax.set_title(titles[nim])
 
 def show_itkimages(images, titles=None, figsize=6, imfuse=None):
     """Plot a 2-D ITK image object using matplotlib.
